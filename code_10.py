@@ -26,19 +26,19 @@ search_results = yelp_api.search_query(
 #print(search_results)
 
 
-result_df = pd.DataFrame.from_dict(search_results['businesses'])
+result_df = pd.DataFrame.from_dict(search_results['rating'])
 print(result_df['alias'])
 result_df.to_csv("yelpapi_businesses_results.csv")
-
 id_for_reviews = 'tuckers-grill-and-taqueria-mesquite'
-
-#"the-cookshack-fort-worth"'tuckers-grill-and-taqueria-mesquite','babes-chicken-dinner-house-roanoke','daynes-craft-barbecue-fort-worth','scrambler-cafe-murphy-murphy','pineapple-grill-texas-hurst'
-review_response = yelp_api.reviews_query(id=id_for_reviews)
-print(review_response)
 id_for_reviews = 'the-cookshack-fort-worth'
+id_for_reviews = 'babes-chicken-dinner-house-roanoke'
+id_for_reviews = 'daynes-craft-barbecue-fort-worth'
+
 review_response = yelp_api.reviews_query(id=id_for_reviews)
 print(review_response)
-
+result_df.to_csv(f"{id_for_reviews}yelpapi_businesses_results.csv")
+Review_df = pd.DataFrame.from_dict(result_df['review'])
+print(Review_df['text'])
 
 for review in result_df['text']:
     tokens = nltk.word_tokenize(review)
@@ -52,7 +52,7 @@ for review in result_df['text']:
 
 #result_df = pd.DataFrame.from_dict(search_results['businesses'])
 #print(result_df)
-#result_df.to_csv(f"{id_for_reviews}_yelpapi_businesses_results.csv")
+result_df.to_csv(f"{id_for_reviews}yelpapi_businesses_results.csv")
 
 
 
