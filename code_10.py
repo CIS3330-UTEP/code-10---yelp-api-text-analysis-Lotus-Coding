@@ -25,11 +25,13 @@ search_results = yelp_api.search_query(
 )
 #print(search_results)
 
+
 result_df = pd.DataFrame.from_dict(search_results['businesses'])
-#print(result_df)
-#result_df.to_csv("yelpapi_businesses_results.csv")
+print(result_df['alias'])
+result_df.to_csv("yelpapi_businesses_results.csv")
 
 id_for_reviews = 'tuckers-grill-and-taqueria-mesquite'
+
 #"the-cookshack-fort-worth"'tuckers-grill-and-taqueria-mesquite','babes-chicken-dinner-house-roanoke','daynes-craft-barbecue-fort-worth','scrambler-cafe-murphy-murphy','pineapple-grill-texas-hurst'
 review_response = yelp_api.reviews_query(id=id_for_reviews)
 print(review_response)
@@ -37,19 +39,21 @@ id_for_reviews = 'the-cookshack-fort-worth'
 review_response = yelp_api.reviews_query(id=id_for_reviews)
 print(review_response)
 
-for review in review_response['reviews']:
-    print(review['text'])
 
-
-result_df = pd.DataFrame.from_dict(search_results['businesses'])
-#print(result_df)
-result_df.to_csv(f"{id_for_reviews}_yelpapi_businesses_results.csv")
-
-reviews =open(id_for_reviews)
-
-for review in reviews:
+for review in result_df['text']:
     tokens = nltk.word_tokenize(review)
-    print(tokens)
+    pos_tags = nltk.pos_tag(tokens)
+    for tag in pos_tags:
+        if tag[1] == 'JJ' or tag[1] == 'JJR' or tag[1] == 'NN':
+            print(tag[0])
+    print(pos_tags)
+
+
+
+#result_df = pd.DataFrame.from_dict(search_results['businesses'])
+#print(result_df)
+#result_df.to_csv(f"{id_for_reviews}_yelpapi_businesses_results.csv")
+
 
 
 #analyzer = SentimentIntensityAnalyzer
